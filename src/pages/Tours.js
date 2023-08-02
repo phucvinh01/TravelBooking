@@ -1,11 +1,25 @@
 import { Form, Input } from 'antd'
-import React from 'react'
-import useFetch from "react-fetch-hook";
+import React, { useEffect, useState } from 'react'
+import { fetchAllTours } from '../Api/TourApi'
+
 import ItemList from "../components/ItemList";
 import SearchBar from '../components/SearchBar';
 const Tours = () => {
 
-    const { isLoading, data, error } = useFetch("http://localhost:4000/api/v1/tours");
+    const [listTourData, setListTourData] = useState([])
+
+    useEffect(() => {
+        getAllTours()
+    }, [])
+
+    const getAllTours = async () => {
+        let res = await fetchAllTours()
+        console.log(">>>>>>>>", res);
+        if (res && res.data) {
+            setListTourData(res.data)
+        }
+        console.log(listTourData);
+    }
     return (
         <>
             <div className='tour-common text-center position-relative'>
@@ -17,7 +31,7 @@ const Tours = () => {
                 </section>
                 <section>
 
-                    <ItemList toursData={data}></ItemList>
+                    <ItemList toursData={listTourData}></ItemList>
 
                 </section>
                 <section style={{ marginBottom: "110px" }}>

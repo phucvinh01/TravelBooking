@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Carousel, Input, } from 'antd'
 import CardComment from '../components/CardComment';
-
-import useFetch from "react-fetch-hook";
-import Item from "../components/Item";
+import { fetchAllTours } from '../Api/TourApi'
 import ItemList from '../components/ItemList';
 import SearchBar from '../components/SearchBar';
 
 const Home = () => {
 
-    const { isLoading, data, error } = useFetch("http://localhost:4000/api/v1/tours");
+    const [listTourData, setListTourData] = useState([])
+
+    useEffect(() => {
+        getAllTours()
+    }, [])
+
+    const getAllTours = async () => {
+        let res = await fetchAllTours()
+        console.log(">>>>>>>>", res);
+        if (res && res.data) {
+            setListTourData(res.data)
+        }
+        console.log(listTourData);
+    }
     const settings = {
         dots: true,
         infinite: true,
@@ -127,8 +138,7 @@ const Home = () => {
                         <p className='section-content-title m-0'>Our featured tours</p>
                         <p className='fw-bolder fs-4'>Our featured tours</p>
                     </div>
-
-                    <ItemList toursData={data}></ItemList>
+                    <ItemList toursData={listTourData}></ItemList>
 
                 </section>
 

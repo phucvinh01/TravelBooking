@@ -6,7 +6,7 @@ const ItemList = ({ toursData }) => {
         <>
             <div className='row justify-content-center'>
                 {
-                    toursData && toursData.data.map((item, index) => {
+                    toursData && toursData.length > 0 && toursData.map((item, index) => {
                         return (
                             <Item
                                 key={index}
