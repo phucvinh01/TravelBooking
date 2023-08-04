@@ -1,13 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Drawer, Space, Button } from 'antd'
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useNavigate, useActionData } from "react-router-dom"
+import { login } from '../Api/Auth'
 
 
 
 
 const Header = () => {
 
-    const navItem = document.querySelectorAll('.nav-link')
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate("/login")
+    }
+
+    const hasLogin = localStorage.getItem('token');
+
+
+
+    console.log(hasLogin);
 
     const headerRef = useRef(null)
     const [open, setOpen] = useState(false);
@@ -64,8 +76,14 @@ const Header = () => {
                             </div>
                             <div className='col-lg-2 col-md-5 col-sm-5'>
                                 <Space align='center' className='gap-3'>
-                                    <Link to={"/login"} className='header-btn__login'>Log in</Link>
-                                    <Link to={'/register'} className='header-btn__register'>Register</Link>
+                                    {
+                                        hasLogin ? <Link to={"/"} onClick={handleLogout} className='header-btn__register'>Log out</Link> :
+                                            <>
+                                                <Link to={"/login"} className='header-btn__login'>Log in</Link>
+                                                <Link to={'/register'} className='header-btn__register'>Register</Link>
+                                            </>
+                                    }
+
                                 </Space>
 
                             </div>

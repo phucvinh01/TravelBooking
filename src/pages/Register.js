@@ -1,8 +1,45 @@
-import React from 'react'
-import { Row, Col, Form, Input, Space, Button, Avatar } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Form, Input, Space, Button } from 'antd'
 import { Link } from 'react-router-dom'
+import { register } from '../Api/Auth'
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loadingAPI, setloadingAPI] = useState(false)
+    let navigate = useNavigate();
+
+
+    const handleRegiser = async () => {
+        if (!email || !password || !username) {
+            toast.error('Missing information');
+            return;
+        }
+        setloadingAPI(true)
+        let res = await register(email, password, username)
+        if (res && res.success) {
+            toast.success('Successfully registered')
+            navigate('/login')
+            console.log("check >>> ", res.success);
+
+        }
+        else {
+            if (res && res.status === 404) {
+                toast.error(res.data.message)
+                console.log("log error: " + res.data.message);
+            }
+        }
+        console.log(res);
+        setloadingAPI(false)
+    }
+
+
+
+
     return (
         <>
             <section style={{ marginBottom: "100px" }}>
@@ -10,12 +47,21 @@ const Register = () => {
                     <Row justify={'center'} >
                         <Col lg={16} md={24} sm={24} className='shadow-lg'>
                             <Row>
-                                <Col style={{ padding: "10px" }} md={12} lg={12} className='login-img'>
-                                    <img className='w-100' src='https://doan-eta.vercel.app/static/media/login.0ef8aace597cf40e2588.png' alt='img_login'></img>
+                                <Col
+                                    style={{ padding: "10px" }}
+                                    md={12} lg={12}
+                                    className='login-img'>
+                                    <img className='w-100'
+                                        src='https://doan-eta.vercel.app/static/media/login.0ef8aace597cf40e2588.png' alt='img_login'></img>
                                 </Col>
-                                <Col style={{ padding: "10px" }} sm={24} md={12} lg={12} className='login-from'>
+                                <Col
+                                    style={{ padding: "10px" }}
+                                    sm={24} md={12} lg={12}
+                                    className='login-from'>
                                     <div className='login-form-header'>
-                                        <span><i class="fa-regular fa-user"></i></span>
+                                        <span>
+                                            <i className="fa-regular fa-user"></i>
+                                        </span>
                                         <h2 className='text-center'>Register</h2>
                                     </div>
                                     <Form
@@ -31,7 +77,12 @@ const Register = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input placeholder='Username' className='login-form-input' bordered={false} />
+                                            <Input
+                                                placeholder='Username'
+                                                className='login-form-input'
+                                                bordered={false}
+                                                onChange={(e) => setUsername(e.target.value)}
+                                            />
                                         </Form.Item>
                                         <Form.Item
                                             name="email"
@@ -42,7 +93,11 @@ const Register = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input placeholder='Email' className='login-form-input' bordered={false} />
+                                            <Input placeholder='Email'
+                                                className='login-form-input'
+                                                bordered={false}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                            />
                                         </Form.Item>
 
                                         <Form.Item
@@ -54,13 +109,26 @@ const Register = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input.Password placeholder='Password' className='login-form-input' bordered={false} />
+                                            <Input.Password
+                                                placeholder='Password'
+                                                className='login-form-input'
+                                                bordered={false}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
                                         </Form.Item>
 
                                         <Form.Item className='m-0'
                                         >
-                                            <Button block type="primary" htmlType="submit" className='login-form-submit'>
-                                                Login
+                                            <Button
+                                                disabled={email && password && username || !loadingAPI ? false : true}
+                                                block
+                                                type="primary"
+                                                htmlType="submit"
+                                                className='login-form-submit'
+                                                onClick={handleRegiser}
+                                            >
+                                                {!loadingAPI && "Regiser"}
+                                                {loadingAPI && <i className="fa-solid fa-fan fa-spin"></i>}
                                             </Button>
                                         </Form.Item>
                                     </Form>

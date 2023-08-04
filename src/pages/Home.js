@@ -15,11 +15,11 @@ const Home = () => {
 
     const getAllTours = async () => {
         let res = await fetchAllTours()
-        console.log(">>>>>>>>", res);
+        //console.log(">>>>>>>>", res);
         if (res && res.data) {
             setListTourData(res.data)
         }
-        console.log(listTourData);
+        //console.log(listTourData);
     }
     const settings = {
         dots: true,

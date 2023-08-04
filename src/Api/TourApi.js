@@ -4,4 +4,9 @@ const fetchAllTours = () => {
     return axio.get("/tours")
 }
 
-export { fetchAllTours }
+const fetchOneTour = (id) => {
+    return axio.get(id)
+}
+
+
+export { fetchAllTours, fetchOneTour }

@@ -1,31 +1,42 @@
 import React, { useState } from 'react'
 import { Row, Col, Form, Input, Space, Button, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-
-
+import { login } from '../Api/Auth'
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
-    const baseUrl = 'http://localhost:4000/api/v1/auth/login'
+
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [user, setUser] = useState();
     const [succses, setSuccses] = useState()
+    const [loadingAPI, setloadingAPI] = useState(false);
+    let navigate = useNavigate();
 
 
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        axios.post(baseUrl, {
-            email: email,
-            password: password
-        })
-            .then((response) => {
-                console.log(response);
-                setUser(response);
-                setSuccses(response.statusText);
-            });;
-    };
+    const handleLogin = async () => {
+        if (!email || !password) {
+            toast.error('Missing information');
+            return;
+        }
+        setloadingAPI(true)
+        let res = await login(email, password)
+        if (res && res.token) {
+            localStorage.setItem("token", res.token);
+            navigate('/');
+            console.log("check >>> ", res.token);
+
+        }
+        else {
+            if (res && res.status === 404) {
+                toast.error(res.data.message)
+                console.log("log error: " + res.data.message);
+            }
+        }
+        setloadingAPI(false)
+    }
 
 
     console.log(user);
@@ -38,18 +49,26 @@ const Login = () => {
                     <Row justify={'center'} >
                         <Col lg={16} md={24} sm={24} className='shadow-lg'>
                             <Row>
-                                <Col style={{ padding: "10px" }} md={12} lg={12} className='login-img'>
-                                    <img className='w-100' src='https://doan-eta.vercel.app/static/media/login.0ef8aace597cf40e2588.png' alt='img_login'></img>
+                                <Col style={{ padding: "10px" }}
+                                    md={12} lg={12}
+                                    className='login-img'>
+                                    <img className='w-100'
+                                        src='https://doan-eta.vercel.app/static/media/login.0ef8aace597cf40e2588.png' alt='img_login'></img>
                                 </Col>
-                                <Col style={{ padding: "10px" }} sm={24} md={12} lg={12} className='login-from'>
+                                <Col
+                                    style={{ padding: "10px" }}
+                                    sm={24} md={12} lg={12}
+                                    className='login-from'>
                                     <div className='login-form-header'>
-                                        <span><i className="fa-regular fa-user"></i></span>
+                                        <span>
+                                            <i className="fa-regular fa-user"></i>
+                                        </span>
                                         <h2>Login</h2>
                                     </div>
                                     <Form
                                         name="login"
                                         className='form-box'
-                                        onFinish={onFinish}
+
                                     >
                                         <Form.Item
                                             name="email"
@@ -73,22 +92,32 @@ const Login = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input.Password placeholder='Password' className='login-form-input' bordered={false}
+                                            <Input.Password
+                                                placeholder='Password'
+                                                className='login-form-input'
+                                                bordered={false}
                                                 onChange={e => setPassword(e.target.value)}
                                             />
                                         </Form.Item>
 
                                         <Form.Item className='m-0'
                                         >
-                                            <Button block type="primary" htmlType="submit" className='login-form-submit'>
-                                                Login
+                                            <Button
+                                                block
+                                                type="primary"
+                                                htmlType="submit"
+                                                disabled={email && password || !loadingAPI ? false : true}
+                                                onClick={handleLogin}
+                                                className='login-form-submit'>
+                                                {!loadingAPI && "Login"}
+                                                {loadingAPI && <i className="fa-solid fa-fan fa-spin"></i>}
                                             </Button>
                                         </Form.Item>
                                     </Form>
                                     <div className='d-gird mx-auto'>
                                         <Space className='m-0'>
                                             <p className='mb-0'>Don't have an account?</p>
-                                            <Link>Create</Link>
+                                            <Link to={"/login"}>Create</Link>
                                         </Space>
                                     </div>
                                 </Col>
