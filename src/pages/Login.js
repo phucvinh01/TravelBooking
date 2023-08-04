@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Row, Col, Form, Input, Space, Button, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import { login } from '../Api/Auth'
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../Context/UserContext'
+
 const Login = () => {
 
-
+    const { loginContext } = useContext(UserContext);
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [user, setUser] = useState();
@@ -23,10 +25,15 @@ const Login = () => {
         }
         setloadingAPI(true)
         let res = await login(email, password)
+
+
+
         if (res && res.token) {
-            localStorage.setItem("token", res.token);
+            loginContext(email, res.token, res.data._id)
             navigate('/');
-            console.log("check >>> ", res.token);
+            console.log("check >>> ", res);
+            document.cookie = res.token
+            console.log("check >>> ", document.cookie);
 
         }
         else {
@@ -44,20 +51,20 @@ const Login = () => {
 
     return (
         <>
-            <section style={{ marginBottom: "100px" }}>
+            <section style={ { marginBottom: "100px" } }>
                 <div className='container'>
-                    <Row justify={'center'} >
-                        <Col lg={16} md={24} sm={24} className='shadow-lg'>
+                    <Row justify={ 'center' } >
+                        <Col lg={ 16 } md={ 24 } sm={ 24 } className='shadow-lg'>
                             <Row>
-                                <Col style={{ padding: "10px" }}
-                                    md={12} lg={12}
+                                <Col style={ { padding: "10px" } }
+                                    md={ 12 } lg={ 12 }
                                     className='login-img'>
                                     <img className='w-100'
                                         src='https://doan-eta.vercel.app/static/media/login.0ef8aace597cf40e2588.png' alt='img_login'></img>
                                 </Col>
                                 <Col
-                                    style={{ padding: "10px" }}
-                                    sm={24} md={12} lg={12}
+                                    style={ { padding: "10px" } }
+                                    sm={ 24 } md={ 12 } lg={ 12 }
                                     className='login-from'>
                                     <div className='login-form-header'>
                                         <span>
@@ -72,31 +79,31 @@ const Login = () => {
                                     >
                                         <Form.Item
                                             name="email"
-                                            rules={[
+                                            rules={ [
                                                 {
                                                     required: true,
                                                     message: 'Please input your Email!',
                                                 },
-                                            ]}
+                                            ] }
                                         >
-                                            <Input placeholder='Email' className='login-form-input' bordered={false}
-                                                onChange={e => setEmail(e.target.value)} />
+                                            <Input placeholder='Email' className='login-form-input' bordered={ false }
+                                                onChange={ e => setEmail(e.target.value) } />
                                         </Form.Item>
 
                                         <Form.Item
                                             name="password"
-                                            rules={[
+                                            rules={ [
                                                 {
                                                     required: true,
                                                     message: 'Please input your password!',
                                                 },
-                                            ]}
+                                            ] }
                                         >
                                             <Input.Password
                                                 placeholder='Password'
                                                 className='login-form-input'
-                                                bordered={false}
-                                                onChange={e => setPassword(e.target.value)}
+                                                bordered={ false }
+                                                onChange={ e => setPassword(e.target.value) }
                                             />
                                         </Form.Item>
 
@@ -106,18 +113,18 @@ const Login = () => {
                                                 block
                                                 type="primary"
                                                 htmlType="submit"
-                                                disabled={email && password || !loadingAPI ? false : true}
-                                                onClick={handleLogin}
+                                                disabled={ email && password || !loadingAPI ? false : true }
+                                                onClick={ handleLogin }
                                                 className='login-form-submit'>
-                                                {!loadingAPI && "Login"}
-                                                {loadingAPI && <i className="fa-solid fa-fan fa-spin"></i>}
+                                                { !loadingAPI && "Login" }
+                                                { loadingAPI && <i className="fa-solid fa-fan fa-spin"></i> }
                                             </Button>
                                         </Form.Item>
                                     </Form>
                                     <div className='d-gird mx-auto'>
                                         <Space className='m-0'>
                                             <p className='mb-0'>Don't have an account?</p>
-                                            <Link to={"/login"}>Create</Link>
+                                            <Link to={ "/login" }>Create</Link>
                                         </Space>
                                     </div>
                                 </Col>

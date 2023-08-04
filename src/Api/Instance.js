@@ -2,10 +2,15 @@ import axios from "axios";
 
 const instance = axios.create({
     baseURL: 'http://localhost:4000/api/v1',
+    withCredentials: true,
+    headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    },
 });
 
 instance.interceptors.response.use(function (response) {
-    return response.data ? response.data : { statusCode: response.status }
+    return response.data ? response.data : { statusCode: response.status, headers: response.headers }
 }, function (error) {
     let res = {}
     if (error.response) {

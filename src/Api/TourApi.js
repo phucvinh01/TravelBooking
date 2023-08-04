@@ -8,5 +8,11 @@ const fetchOneTour = (id) => {
     return axio.get(id)
 }
 
+const postReview = (props) => {
 
-export { fetchAllTours, fetchOneTour }
+    return axio.post("/review/" + props.productId, { ...props }, {
+    })
+}
+
+
+export { fetchAllTours, fetchOneTour, postReview }

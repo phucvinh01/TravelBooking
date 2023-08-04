@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Row, Col, Space, Rate, Form, Input, Button, DatePicker, InputNumber } from 'antd';
 import _ from 'lodash'
 import { fetchOneTour } from '../Api/TourApi';
 import ListComment from '../components/ListComment';
+import { UserContext } from '../Context/UserContext';
+import instance from '../Api/Instance';
 
 const Tour = () => {
     const [tourData, setTourData] = useState([])
     const [revews, setReviews] = useState([])
+    const [rating, setRating] = useState(0)
+    const [comment, setComment] = useState(null)
+
+    const { user } = useContext(UserContext);
 
     let id = useLocation()
-    // console.log(id.pathname);
 
     useEffect(() => {
         getOneTour(id.pathname)
@@ -36,6 +41,19 @@ const Tour = () => {
     }
     const [total, setTotal] = useState(serviceCharge);
     const onChange = (value) => setTotal(value * dataPrice(tourData) + serviceCharge)
+
+    const handleSubmit = async () => {
+        console.log(tourData._id);
+        let res = await instance.post(`/review/${tourData._id}`, {
+            productId: tourData.productId,
+            username: user.name,
+            reviewText: comment,
+            rating: rating,
+        });
+        setComment("")
+        setRating(0)
+        getOneTour(id.pathname)
+    }
     return (
         <>
             {
@@ -44,12 +62,15 @@ const Tour = () => {
                         <Row>
                             <Col lg={ 16 } md={ 16 } sm={ 24 } className='p-3'>
                                 <div className='tour-img mb-3'>
-                                    <img className='w-100 rounded-3' src="https://i.pinimg.com/564x/ea/3d/d4/ea3dd47276b865c44d253c028da19a06.jpg"></img>
+                                    <img className='w-100 rounded-3'
+                                        src="https://i.pinimg.com/564x/ea/3d/d4/ea3dd47276b865c44d253c028da19a06.jpg"></img>
                                 </div>
                                 <div className='tour-detail rounded-3 p-4 mb-3'>
                                     <h2 className='mb-4'>{ tourData.title }</h2>
-                                    <div className='d-flex gap-5 mb-4'>
-                                        <Space className='d-flex align-items-center gap-1 m-1'>
+                                    <div
+                                        className='d-flex gap-5 mb-4'>
+                                        <Space
+                                            className='d-flex align-items-center gap-1 m-1'>
                                             <i className="fa-solid fa-star"></i>
                                             <small className='fs-6 text-muted'>(0)</small>
                                         </Space>
@@ -58,7 +79,8 @@ const Tour = () => {
                                             <small className='fs-6 text-muted'>{ tourData.address }</small>
                                         </Space>
                                     </div>
-                                    <div className='d-flex gap-5 mb-4 m-1 sm-tour-detail flex-sm-row'>
+                                    <div
+                                        className='d-flex gap-5 mb-4 m-1 sm-tour-detail flex-sm-row'>
                                         <Space className='m-1'>
                                             <i className="fa-solid fa-location-dot"></i>
                                             <small className='fs-6 text-muted'>{ tourData.city }</small>
@@ -75,7 +97,7 @@ const Tour = () => {
                                             <i className="fa-solid fa-user-group"></i>
                                             <small className='fs-6 text-muted'>{ tourData.maxGroupSize } people</small>
                                         </Space>
-                                    </div>H
+                                    </div>
                                     <div>
                                         <h5 className='mb-4'>Description</h5>
                                         <p className='text-muted'>{ tourData.desc }</p>
@@ -86,10 +108,25 @@ const Tour = () => {
                                     <h2 className='mb-3'>
                                         Reviews ({ values.length } reviews)
                                     </h2>
-                                    <Rate className='mb-3' allowHalf defaultValue={ 0 } />
-                                    <Form className='tour-reviews d-flex p-3 rounded-4' name='commnent'>
-                                        <Input bordered={ false } placeholder='share you think' name='comment' />
-                                        <Button htmlType="submit" className='btn-tour-booking'>Submit</Button>
+                                    <Rate
+                                        className='mb-3'
+                                        allowHalf defaultValue={ 0 }
+                                        onChange={ setRating } value={ rating } />
+                                    <Form
+                                        className='tour-reviews d-flex p-3 rounded-4'
+                                        name='commnent'>
+                                        <Input
+
+                                            bordered={ false }
+                                            disabled={ !user.auth ? true : false }
+                                            placeholder={ !user.auth ? "You need login" : "Share you think" }
+                                            name='comment'
+                                            onChange={ (e) => setComment(e.target.value) } />
+                                        <Button
+                                            onClick={ handleSubmit }
+                                            disabled={ !user.auth ? true : false }
+                                            htmlType="submit"
+                                            className='btn-tour-booking'>Submit</Button>
                                     </Form>
                                     <ListComment data={ values }></ListComment>
                                 </div>
