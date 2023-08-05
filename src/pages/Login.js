@@ -26,20 +26,15 @@ const Login = () => {
         setloadingAPI(true)
         let res = await login(email, password)
 
-
-
         if (res && res.token) {
             loginContext(email, res.token, res.data._id)
             navigate('/');
             console.log("check >>> ", res);
-            document.cookie = res.token
-            console.log("check >>> ", document.cookie);
 
         }
         else {
             if (res && res.status === 404) {
                 toast.error(res.data.message)
-                console.log("log error: " + res.data.message);
             }
         }
         setloadingAPI(false)

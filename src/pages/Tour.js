@@ -1,19 +1,36 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Row, Col, Space, Rate, Form, Input, Button, DatePicker, InputNumber } from 'antd';
 import _ from 'lodash'
 import { fetchOneTour } from '../Api/TourApi';
 import ListComment from '../components/ListComment';
 import { UserContext } from '../Context/UserContext';
 import instance from '../Api/Instance';
+import { toast } from 'react-toastify';
+
 
 const Tour = () => {
+
+    const navigate = useNavigate()
+
+    const [state, setState] = useState([])
     const [tourData, setTourData] = useState([])
     const [revews, setReviews] = useState([])
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState(null)
+    const [fullname, setFullname] = useState("")
+    const [phone, setPhone] = useState("")
+    const [bookAt, setBookAt] = useState("")
+    const [guestSize, setGuestSize] = useState(0)
 
-    const { user } = useContext(UserContext);
+    const handleBookAt = (date, dateString) => {
+        setBookAt(dateString)
+    };
+
+
+    console.log(state);
+
+    const { user, addCart } = useContext(UserContext);
 
     let id = useLocation()
 
@@ -24,7 +41,6 @@ const Tour = () => {
 
     const getOneTour = async (id) => {
         let res = await fetchOneTour(id)
-        console.log(">>>>>>>>", res);
         if (res && res.data) {
             setTourData(res.data)
             setReviews(res.data.reviews)
@@ -32,15 +48,16 @@ const Tour = () => {
     }
     const values = _.filter(revews, revews.productId);
 
-    console.log(values);
-
     const serviceCharge = 10;
 
     const dataPrice = (tourData) => {
         return tourData && tourData.price
     }
     const [total, setTotal] = useState(serviceCharge);
-    const onChange = (value) => setTotal(value * dataPrice(tourData) + serviceCharge)
+    const onChange = (value) => {
+        setTotal(value * dataPrice(tourData) + serviceCharge)
+        setGuestSize(value)
+    }
 
     const handleSubmit = async () => {
         console.log(tourData._id);
@@ -53,6 +70,46 @@ const Tour = () => {
         setComment("")
         setRating(0)
         getOneTour(id.pathname)
+    }
+
+
+    const handleBooking = async () => {
+
+        if (!fullname || !phone || !bookAt || guestSize == 0) {
+            toast.error("Missing information!!!")
+        }
+        else {
+            console.log("checkkkk>>>>> ");
+            console.log("TourName: ", tourData.title);
+            console.log("Email: ", user.name);
+            console.log("Id: ", user.id);
+            console.log("Fullname: ", fullname);
+            console.log("Phone: ", phone);
+            console.log("BookAt: ", bookAt);
+            console.log("GuestSize: ", guestSize);
+            let res = await instance.post("/booking/", {
+                userId: user.id,
+                userEmail: user.name,
+                tourName: tourData.title,
+                fullName: fullname,
+                guestSize: guestSize,
+                phone: phone,
+                bookAt: bookAt
+            })
+            if (res.success) {
+                toast.success("Your tour is booked! Check your cart");
+                setState(res.data)
+                navigate('/')
+                navigate(0);
+            }
+            else {
+                if (res.status === 500) {
+                    toast.error("Internal server error!");
+                }
+            }
+        }
+
+
     }
     return (
         <>
@@ -149,20 +206,37 @@ const Tour = () => {
                                         <div className='form-booking-info p-3 rounded-3 mb-3'>
                                             <Form.Item
                                                 name="name">
-                                                <Input bordered={ false } placeholder='Full name' />
+                                                <Input
+                                                    bordered={ false }
+                                                    placeholder='Full name'
+                                                    onChange={ (e) => setFullname(e.target.value) } />
                                             </Form.Item>
                                             <Form.Item
                                                 name="phone">
-                                                <Input bordered={ false } placeholder='phone' />
+                                                <Input
+                                                    bordered={ false }
+                                                    placeholder='phone'
+                                                    onChange={ (e) => setPhone(e.target.value) }
+                                                />
                                             </Form.Item>
                                             <Space>
                                                 <Form.Item
                                                     name="day">
-                                                    <DatePicker bordered={ false } placeholder='dd/mm/yyyy' />
+                                                    <DatePicker
+                                                        bordered={ false }
+                                                        placeholder='dd/mm/yyyy'
+                                                        onChange={ handleBookAt }
+                                                    />
                                                 </Form.Item>
                                                 <Form.Item
                                                     name="group">
-                                                    <InputNumber bordered={ false } min={ 1 } placeholder='Guest' onChange={ onChange } />
+                                                    <InputNumber
+                                                        bordered={ false }
+                                                        min={ 1 }
+                                                        placeholder='Guest'
+                                                        onChange={ onChange }
+
+                                                    />
                                                 </Form.Item>
                                             </Space>
                                         </div>
@@ -181,7 +255,14 @@ const Tour = () => {
                                     </div>
 
                                     <Form.Item>
-                                        <Button block className='btn-tour-booking'> Book Now</Button>
+                                        <Button
+                                            onClick={ handleBooking }
+                                            block
+                                            className='btn-tour-booking'
+                                            disabled={ user.auth ? false : true }
+                                        >
+                                            { user.auth ? "Book Now" : "Sign in to book" }
+                                        </Button>
                                     </Form.Item>
 
                                 </Form>

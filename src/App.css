@@ -29,6 +29,12 @@ section {
   --subtitle-font-name: "Island Moments", cursive;
 }
 
+.ant-btn-default {
+  color: #0b2727 !important;
+}
+
+
+
 /* Header */
 
 .header {
@@ -452,10 +458,17 @@ section {
 .form-booking-info {
   border: 1px solid var(--text-color);
 }
+
+.ant-btn-default:hover {
+  color: #0b2727 !important ;
+}
 /* reponsive phone */
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media (max-width: 600px) {
+  .menu-right {
+    display: none;
+  }
   .header {
     height: 50px;
   }

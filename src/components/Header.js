@@ -16,12 +16,6 @@ const Header = () => {
         navigate("/login")
     }
 
-    const hasLogin = localStorage.getItem('token');
-
-
-
-    console.log(hasLogin);
-
     const headerRef = useRef(null)
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
@@ -75,7 +69,7 @@ const Header = () => {
                                     </div>
                                 </nav>
                             </div>
-                            <div className='col-lg-2 col-md-5 col-sm-5'>
+                            <div className='col-lg-2 col-md-5 col-sm-5 menu-right'>
                                 <Space align='center' className=''>
                                     {
                                         user && user.auth ? <><span> Wellcome { user.name }</span> <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout'>Log out</Link> </> :
@@ -97,9 +91,17 @@ const Header = () => {
                                 width={ 200 }
 
                                 title="Basic Drawer" placement="right" onClose={ onClose } open={ open }>
-                                <p>Some contents...</p>
-                                <p>Some contents...</p>
-                                <p>Some contents...</p>
+                                <div className='container'>
+                                    {
+                                        user && user.auth ? <><span > Wellcome { user.name }</span> <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout mt-3'>Log out</Link> </> :
+                                            <>
+                                                <Link to={ "/login" } className='header-btn__login  '>Log in</Link>
+                                                <Link to={ '/register' } className='header-btn__register mt-3'>Register</Link>
+                                            </>
+                                    }
+                                </div>
+
+
                             </Drawer>
                         </div>
                     </div></div>

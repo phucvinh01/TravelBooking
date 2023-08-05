@@ -31,10 +31,10 @@ const Tours = () => {
                 </section>
                 <section>
 
-                    <ItemList toursData={listTourData}></ItemList>
+                    <ItemList toursData={ listTourData }></ItemList>
 
                 </section>
-                <section style={{ marginBottom: "110px" }}>
+                <section style={ { marginBottom: "110px" } }>
                     <div className='row'>
                         <div className='col-lg-6 col-md-12 col-sm-6'>
                             <h2>Subcribe DUONG now to get useful traveling information</h2>
@@ -44,8 +44,8 @@ const Tours = () => {
                                     allowClear
                                     enterButton="Subcribe "
                                     size="middle"
-                                    bordered={false}
-                                    style={{ borderBottom: "1px solid #ff7e01", borderRadius: "10px" }}
+                                    bordered={ false }
+                                    style={ { borderBottom: "1px solid #ff7e01", borderRadius: "10px" } }
                                 />
                             </Form>
                         </div>
