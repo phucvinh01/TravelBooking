@@ -11,8 +11,6 @@ const Login = () => {
     const { loginContext } = useContext(UserContext);
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    const [user, setUser] = useState();
-    const [succses, setSuccses] = useState()
     const [loadingAPI, setloadingAPI] = useState(false);
     let navigate = useNavigate();
 
@@ -39,10 +37,6 @@ const Login = () => {
         }
         setloadingAPI(false)
     }
-
-
-    console.log(user);
-    console.log(succses);
 
     return (
         <>

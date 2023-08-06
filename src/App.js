@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Layout from './components/Layout';
 import About from './pages/About';
 import Tours from './pages/Tours';
@@ -20,20 +20,26 @@ function App() {
   const { loginContext, user } = useContext(UserContext);
 
   const [data, setData] = useState([])
-  const [rerender, setRerender] = useState(false);
+
+
   useEffect(() => {
+
+    getCart()
+
     if (localStorage.getItem('token')) {
       loginContext((localStorage.getItem('name')), (localStorage.getItem('token')), (localStorage.getItem('id')), dataSource)
-      getCart()
     }
-    setRerender(!rerender)
+
   }, [])
+
+  // //clear localStogare when browers off
+  // window.onbeforeunload = function () {
+  //   localStorage.clear();
+  // }
   const getCart = async () => {
     let res = await getBooking(user.id)
     setData(res.data)
   }
-
-  console.log(rerender);
 
   const asArray = Object.entries(data);
 
@@ -45,10 +51,6 @@ function App() {
     return _.isObject(n);
   });
 
-  // //clear localStogare when browers off
-  // window.onbeforeunload = function () {
-  //   localStorage.clear();
-  // }
 
   const navigate = useNavigate()
 

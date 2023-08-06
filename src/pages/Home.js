@@ -51,7 +51,7 @@ const Home = () => {
     return (
         <>
             <main className='container'>
-                {/* Know before you go */}
+                {/* Know before you go */ }
                 <section>
                     <div className='row'>
                         <div className='col-lg-6 col-md-12 col-sm-12 section-content'>
@@ -81,12 +81,12 @@ const Home = () => {
                     </div>
                 </section>
 
-                {/* search bar */}
+                {/* search bar */ }
                 <section>
-                    <SearchBar></SearchBar>
+                    <SearchBar data={ listTourData }></SearchBar>
                 </section>
 
-                {/* What we serve */}
+                {/* What we serve */ }
 
                 <section >
 
@@ -131,19 +131,19 @@ const Home = () => {
                     </div>
                 </section>
 
-                {/* {Explore } */}
+                {/* {Explore } */ }
 
                 <section>
                     <div>
                         <p className='section-content-title m-0'>Our featured tours</p>
                         <p className='fw-bolder fs-4'>Our featured tours</p>
                     </div>
-                    <ItemList toursData={listTourData}></ItemList>
+                    <ItemList toursData={ listTourData }></ItemList>
 
                 </section>
 
 
-                {/* { "Experience"} */}
+                {/* { "Experience"} */ }
                 <section>
                     <div className='row'>
                         <div className='col-lg-6 col-md-6 col-sm-12'>
@@ -176,7 +176,7 @@ const Home = () => {
                     </div>
                 </section>
 
-                {/* {Gallery } */}
+                {/* {Gallery } */ }
 
                 <section>
                     <div>
@@ -196,14 +196,14 @@ const Home = () => {
                 </section>
 
 
-                {/* {Carousel} */}
+                {/* {Carousel} */ }
                 <section>
                     <div>
                         <p className='section-content-title m-0'>Fans Love</p>
                         <p className='fw-bolder fs-4'>What our fans say about us</p>
                     </div>
                     <div className=''>
-                        <Carousel {...settings} >
+                        <Carousel { ...settings } >
                             <CardComment name="Vinh" role="Admin"></CardComment>
                             <CardComment name="Vinh" role="Admin"></CardComment>
                             <CardComment name="Vinh" role="Admin"></CardComment>
@@ -213,8 +213,8 @@ const Home = () => {
                 </section>
 
 
-                {/* Subcribe  */}
-                <section style={{ marginBottom: "110px" }}>
+                {/* Subcribe  */ }
+                <section style={ { marginBottom: "110px" } }>
                     <div className='row'>
                         <div className='col-lg-6 col-md-12 col-sm-6'>
                             <h2>Subcribe DUONG now to get useful traveling information</h2>
@@ -224,8 +224,8 @@ const Home = () => {
                                     allowClear
                                     enterButton="Subcribe "
                                     size="middle"
-                                    bordered={false}
-                                    style={{ borderBottom: "1px solid #ff7e01", borderRadius: "10px" }}
+                                    bordered={ false }
+                                    style={ { borderBottom: "1px solid #ff7e01", borderRadius: "10px" } }
                                 />
                             </Form>
                         </div>

@@ -117,7 +117,7 @@ const Tour = () => {
                 tourData && (
                     <div className='container'>
                         <Row>
-                            <Col lg={ 16 } md={ 16 } sm={ 24 } className='p-3'>
+                            <Col lg={ 16 } md={ 24 } sm={ 24 } className='p-3'>
                                 <div className='tour-img mb-3'>
                                     <img className='w-100 rounded-3'
                                         src="https://i.pinimg.com/564x/ea/3d/d4/ea3dd47276b865c44d253c028da19a06.jpg"></img>
@@ -189,7 +189,7 @@ const Tour = () => {
                                 </div>
 
                             </Col>
-                            <Col lg={ 8 } md={ 8 } sm={ 24 } className='p-3'>
+                            <Col lg={ 8 } md={ 24 } sm={ 24 } className='p-3'>
                                 <Form className='tour-form-booking p-4 rounded-3 ' name='booking'>
                                     <div className='d-flex justify-content-between border-bottom pb-3 mb-3'>
                                         <h4>

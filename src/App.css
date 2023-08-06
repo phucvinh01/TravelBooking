@@ -39,8 +39,6 @@ section {
 
 .header {
   height: 80px;
-  position: sticky;
-  top: 0;
   z-index: 999;
   background-color: #fff;
   width: 100%;
@@ -542,6 +540,9 @@ section {
     row-gap: 12px;
     align-items: center;
   }
+  .ant-drawer-content-wrapper{
+    max-width: 80% !important
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -552,6 +553,16 @@ section {
     background-color: white;
     color: black;
   }
+  .ant-form{
+    display: grid !important;
+    width: -webkit-fill-available;
+  }
+  .menu-right {
+    display: none;
+  }
+  .input-field {
+    width: -webkit-fill-available;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -559,11 +570,18 @@ section {
   .header-btn__menu {
     display: block;
   }
+  .list-group{
+    display: none;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  .header-btn__menu {
+
+  .list-group{
     display: none;
+  } .ant-form{
+    display: flex !important;
+    width: max-content
   }
 }

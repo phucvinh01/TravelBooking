@@ -4,6 +4,7 @@ const UserContext = React.createContext({ name: '', id: ' ', auth: false, cart: 
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = React.useState({ name: '', id: ' ', auth: false, cart: [] });
+    const [search, setSearch] = React.useState(null);
 
     const loginContext = (name, res, id, cart) => {
         setUser((user) => ({
@@ -18,6 +19,10 @@ const UserProvider = ({ children }) => {
 
 
     };
+
+    const handleSearch = (data) => {
+        setSearch(data)
+    }
 
     const addCart = (cart) => {
         setUser((user) => ({
@@ -40,7 +45,7 @@ const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={ { user, loginContext, logout, addCart } }>
+        <UserContext.Provider value={ { user, loginContext, logout, addCart, handleSearch, search } }>
             { children }
         </UserContext.Provider>
     );

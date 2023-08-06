@@ -1,12 +1,13 @@
 import { Form, Input } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { fetchAllTours } from '../Api/TourApi'
-
+import { UserContext } from '../Context/UserContext';
 import ItemList from "../components/ItemList";
 import SearchBar from '../components/SearchBar';
 const Tours = () => {
 
     const [listTourData, setListTourData] = useState([])
+    const { search } = useContext(UserContext);
 
     useEffect(() => {
         getAllTours()
@@ -14,11 +15,10 @@ const Tours = () => {
 
     const getAllTours = async () => {
         let res = await fetchAllTours()
-        console.log(">>>>>>>>", res);
+        // console.log(">>>>>>>>", res);
         if (res && res.data) {
             setListTourData(res.data)
         }
-        console.log(listTourData);
     }
     return (
         <>
@@ -27,11 +27,11 @@ const Tours = () => {
             </div>
             <div className='container'>
                 <section>
-                    <SearchBar></SearchBar>
+                    <SearchBar data={ listTourData } ></SearchBar>
                 </section>
                 <section>
 
-                    <ItemList toursData={ listTourData }></ItemList>
+                    <ItemList toursData={ search && search ? search : listTourData }></ItemList>
 
                 </section>
                 <section style={ { marginBottom: "110px" } }>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
-import { Drawer, Space, Button } from 'antd'
+import { Drawer, Space } from 'antd'
 import { NavLink, Link, useNavigate } from "react-router-dom"
 import { UserContext } from '../Context/UserContext'
 
@@ -7,8 +7,6 @@ import { UserContext } from '../Context/UserContext'
 const Header = () => {
     const { logout, user } = useContext(UserContext);
 
-
-    console.log(user);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -40,7 +38,7 @@ const Header = () => {
     })
     return (
         <>
-            <header className='header sticky-top' ref={ headerRef }>
+            <header className='header sticky-sm-top sticky-top' ref={ headerRef }>
                 <div className='container'>
                     <div className='row pt-1'>
                         <div className='d-flex align-items-center justify-content-between'>
@@ -72,7 +70,7 @@ const Header = () => {
                             <div className='col-lg-2 col-md-5 col-sm-5 menu-right'>
                                 <Space align='center' className=''>
                                     {
-                                        user && user.auth ? <><span> Wellcome { user.name }</span> <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout'>Log out</Link> </> :
+                                        user && user.auth ? <> <span> Wellcome { user.name }</span> <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout'>Log out</Link> </> :
                                             <>
                                                 <Link to={ "/login" } className='header-btn__login'>Log in</Link>
                                                 <Link to={ '/register' } className='header-btn__register'>Register</Link>
@@ -87,25 +85,42 @@ const Header = () => {
                             </button>
 
                             <Drawer
-                                closable={ false }
-                                width={ 200 }
+                                placement="right"
+                                width={ 640 }
+                                destroyOnClose={ true }
+                                onClose={ onClose }
+                                open={ open }>
 
-                                title="Basic Drawer" placement="right" onClose={ onClose } open={ open }>
                                 <div className='container'>
                                     {
-                                        user && user.auth ? <><span > Wellcome { user.name }</span> <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout mt-3'>Log out</Link> </> :
+                                        user.auth ?
                                             <>
-                                                <Link to={ "/login" } className='header-btn__login  '>Log in</Link>
-                                                <Link to={ '/register' } className='header-btn__register mt-3'>Register</Link>
+                                                <span > Wellcome { user.name }</span>
+                                                <Link to={ "/" } onClick={ handleLogout } className='header-btn__logout mt-3'>Log out</Link>
+                                            </>
+                                            :
+                                            <>
+                                                <Link to={ "/login" } className='header-btn__login  mx-2'>Log in</Link>
+                                                <Link to={ '/register' } className='header-btn__register mt-3 m-0'>Register</Link>
                                             </>
                                     }
+                                    <hr></hr>
+                                    <ul className="list-group">
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" aria-current="page" to={ "/" }>Home</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to={ "/about" }>About</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink className="nav-link" to={ "/tours" }>Tours</NavLink>
+                                        </li>
+                                    </ul>
                                 </div>
-
-
                             </Drawer>
                         </div>
-                    </div></div>
-
+                    </div>
+                </div>
             </header>
 
 

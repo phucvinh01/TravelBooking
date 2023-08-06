@@ -16,7 +16,7 @@ const Cart = ({ dataSource }) => {
         <>
             <section>
                 <div className='container mx-auto my-5'>
-                    <Table dataSource={ dataSource }
+                    <Table dataSource={ state }
                         pagination={ false }
                         className='shadow-2'
                     >
