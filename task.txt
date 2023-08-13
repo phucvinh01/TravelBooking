@@ -1,0 +1,25 @@
+Task 2
+
+Deadline 1 (2 week):
+
+ + make UI like "https://doan-eta.vercel.app/home" -- done
+ + login - logout - register -- done
+ + show all tours -- done
+ + search by location, max group size and distance range -- done
+ + add review for each tour -- done
+ + booking tour -- done
+ + add to cart -- done
+ + show cart -- done
+ + checkout -- done
+ + avg rate -- done
+ + count rate for each tour -- done
+
+ Deadline 2 (4 day):
+
+- Login with role admin -- done
+- Admin page -- done
+- Show option Admin -- done
+- Post new tour -- 50%
+- Edit tour -- done
+- Delele tour -- done
+- sever upload img -- done

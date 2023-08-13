@@ -25,8 +25,14 @@ const Login = () => {
         let res = await login(email, password)
 
         if (res && res.token) {
-            loginContext(email, res.token, res.data._id)
-            navigate('/');
+            if (res.role == "admin") {
+                navigate('/tours')
+                loginContext(email, res.token, res.data._id, "", res.role)
+            }
+            else {
+                loginContext(email, res.token, res.data._id, res.role)
+                navigate('/');
+            }
             console.log("check >>> ", res);
 
         }

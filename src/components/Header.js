@@ -46,27 +46,30 @@ const Header = () => {
                                 <img className='' style={ { width: "60px" } } src='https://i.pinimg.com/236x/69/9c/16/699c16f1a51b2493f9c26f0d6bb01796.jpg' alt='logo'>
                                 </img>
                             </div>
-                            <div className='col-lg-4 navbar-reponsive'>
-                                <nav className="navbar navbar-expand-lg">
-                                    <div className="container-fluid">
-                                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                                <li className="nav-item">
-                                                    <NavLink className="nav-link" aria-current="page" to={ "/" }>Home</NavLink>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <NavLink className="nav-link" to={ "/about" }>About</NavLink>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <NavLink className="nav-link" to={ "/tours" }>Tours</NavLink>
-                                                </li>
+                            {
+                                user && user.role != "admin" && <div className='col-lg-4 navbar-reponsive'>
+                                    <nav className="navbar navbar-expand-lg">
+                                        <div className="container-fluid">
+                                            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                                                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                                    <li className="nav-item">
+                                                        <NavLink className="nav-link" aria-current="page" to={ "/" }>Home</NavLink>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <NavLink className="nav-link" to={ "/about" }>About</NavLink>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <NavLink className="nav-link" to={ "/tours" }>Tours</NavLink>
+                                                    </li>
 
-                                            </ul>
+                                                </ul>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                </nav>
-                            </div>
+                                    </nav>
+                                </div>
+                            }
+
                             <div className='col-lg-2 col-md-5 col-sm-5 menu-right'>
                                 <Space align='center' className=''>
                                     {

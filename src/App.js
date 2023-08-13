@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Layout from './components/Layout';
 import About from './pages/About';
 import Tours from './pages/Tours';
@@ -27,27 +27,34 @@ function App() {
     getCart()
 
     if (localStorage.getItem('token')) {
-      loginContext((localStorage.getItem('name')), (localStorage.getItem('token')), (localStorage.getItem('id')), dataSource)
+      loginContext((localStorage.getItem('name')), (localStorage.getItem('token')), (localStorage.getItem('id')), dataSource, (localStorage.getItem('role')))
+      if (user.role == "admin") {
+        navigate('/tours')
+      }
     }
+
+
 
   }, [])
 
-  // //clear localStogare when browers off
-  // window.onbeforeunload = function () {
-  //   localStorage.clear();
-  // }
+  //clear localStogare when browers off
+  window.onbeforeunload = function () {
+    if (localStorage.getItem('token ')) {
+      localStorage.clear()
+    }
+  };
   const getCart = async () => {
     let res = await getBooking(user.id)
     setData(res.data)
   }
 
-  const asArray = Object.entries(data);
+  const asArray = data && Object.entries(data);
 
-  const filtered = asArray.filter(([key, value]) => value.userId == user.id);
+  const filtered = asArray && asArray.filter(([key, value]) => value.userId == user.id);
 
-  const Source = _.flattenDeep(filtered)
+  const Source = filtered && _.flattenDeep(filtered)
 
-  const dataSource = _.remove(Source, function (n) {
+  const dataSource = Source && _.remove(Source, function (n) {
     return _.isObject(n);
   });
 
@@ -58,40 +65,44 @@ function App() {
     navigate('/cart')
   }
 
+
+
+
+
   return (
     <>
       <Routes>
-        <Route path="/" element={ <Layout /> }>
-          <Route index element={ <Home /> } />
-          <Route path="about" element={ <About /> } />
-          <Route path="tours" element={ <Tours /> } />
-          <Route path="login" element={ <Login /> } />
-          <Route path="register" element={ <Register /> } />
-          <Route path="tours/:id" element={ <Tour /> } />
-          <Route path="cart" element={ <Cart dataSource={ dataSource } /> } />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="tours" element={<Tours />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="tours/:id" element={<Tour />} />
+          <Route path="cart" element={<Cart dataSource={dataSource} />} />
+
         </Route>
       </Routes>
       <ToastContainer
         position="top-right"
-        autoClose={ 5000 }
-        hideProgressBar={ false }
-        newestOnTop={ false }
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
         closeOnClick
-        rtl={ false }
+        rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="light"
       />
       <ToastContainer />
       {
-        user.auth && <FloatButton
-          icon={ <i className="fa-solid fa-cart-shopping"></i> }
-          onClick={ handleOnClick }
-          badge={ {
+        user.auth && user.role != 'admin' && <FloatButton
+          icon={<i className="fa-solid fa-cart-shopping"></i>}
+          onClick={handleOnClick}
+          badge={{
             count: dataSource.length,
             color: 'blue',
-          } }
+          }}
         />
       }
 

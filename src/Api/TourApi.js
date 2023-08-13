@@ -1,7 +1,7 @@
 import axio from "./Instance"
 
-const fetchAllTours = () => {
-    return axio.get("/tours")
+const fetchAllTours = (page) => {
+    return axio.get("/tours?page=" + page)
 }
 
 const fetchOneTour = (id) => {
@@ -14,5 +14,11 @@ const postReview = (props) => {
     })
 }
 
+const createTour = (props) => {
+    console.log(props);
+    return axio.post("/tours/", { ...props }, {
+    })
+}
 
-export { fetchAllTours, fetchOneTour, postReview }
+
+export { fetchAllTours, fetchOneTour, postReview, createTour }

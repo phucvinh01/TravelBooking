@@ -9,6 +9,38 @@ a:hover {
   color: currentColor !important;
 }
 
+.ant-btn-primary{
+   background-color: var(--primary-color);
+  border-radius: 15px 5px;
+
+  color: #000;
+  font-style: italic;
+}
+.ant-btn-primary:hover{
+    background-color: var(--secondary-color) !important;
+}
+.ant-btn{
+  border-radius: 15px 5px;
+  color: #000;
+  font-style: italic;
+
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--secondary-color) !important;
+    border-color: #faa935;
+}
+input {
+  border: none;
+}
+.form-control {
+  border: none;
+  border-bottom: 1px solid var(--secondary-color);
+  border-right: 1px solid var(--secondary-color);
+
+  border-radius: 0%;
+}
+
 a {
   color: black !important;
 }
@@ -19,7 +51,29 @@ section {
 .active {
   color: #ff7e01 !important;
 }
+.pagination {
+  margin-top: 20px;
+  justify-content: center
+}
 
+.page-link {
+  color: #333 !important;
+  background-color: #fff !important;
+  border-radius: 50% !important;
+  margin-right: 10px;
+}
+.page-item:first-child , .page-item:last-child {
+  display: none;
+}
+.active>.page-link {
+  background-color: #ff7e01 !important;
+  color: #fff !important;
+  border-color:#ff7e01 !important
+}
+
+.ant-space {
+  margin:  0 !important;
+}
 :root {
   --primary-color: #ff7e01;
   --secondary-color: #faa935;
@@ -277,9 +331,16 @@ section {
 .fa-star {
   color: var(--primary-color);
 }
-.btn-book {
-  background-color: var(--primary-color);
+
+.btn-edit {
+  background-color: var(--secondary-color);
   padding: 10px 15px;
+  border-radius: 15px 5px;
+  font-style: italic;
+}
+.btn-book { 
+  background-color: var(--primary-color);
+  padding: 5px 10px;
   border-radius: 15px 5px;
   color: #333;
   font-style: italic;
@@ -460,6 +521,36 @@ section {
 .ant-btn-default:hover {
   color: #0b2727 !important ;
 }
+
+.ant-upload-select{
+    width: 100% !important;
+}
+
+#inputFile::-webkit-file-upload-button {
+  display: none;
+}
+#inputFile::before {
+  margin-right: 10px;
+  content: 'Select Image   ';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+#inputFile:hover::before {
+  border-color: black;
+}
+#inputFile:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
 /* reponsive phone */
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -546,7 +637,7 @@ section {
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
+@media (max-width: 768px) {
   .header-btn__menu {
     display: block;
     margin-left: 5px;
@@ -565,7 +656,7 @@ section {
   }
 }
 
-/* Large devices (laptops/desktops, 992px and up) */
+/* Large devices (laptops/desktops, 992px and up)
 @media only screen and (min-width: 992px) {
   .header-btn__menu {
     display: block;
@@ -573,9 +664,9 @@ section {
   .list-group{
     display: none;
   }
-}
+} */
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
+/* Extra large devices (large laptops and desktops, 1200px and up)
 @media only screen and (min-width: 1200px) {
 
   .list-group{
@@ -584,4 +675,4 @@ section {
     display: flex !important;
     width: max-content
   }
-}
+} */
